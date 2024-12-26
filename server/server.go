@@ -81,7 +81,7 @@ func (s *Server) URL() string {
 
 	domain := "localhost"
 	if s.domain != "" {
-		s.domain = domain
+		domain = s.domain
 	}
 
 	return fmt.Sprintf("http://%s:%d", domain, s.Port())
