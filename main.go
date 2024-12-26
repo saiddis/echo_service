@@ -8,22 +8,18 @@ import (
 	"os/signal"
 	"strconv"
 
-	"github.com/joho/godotenv"
 	"github.com/saiddis/echo_service/server"
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Printf("error loading env file: %v", err)
-	}
-
 	domain := os.Getenv("DOMAIN")
 	log.Printf("domain: %s", domain)
 
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	log.Printf("port: %d", port)
 	if err != nil {
-		log.Fatalf("error converting env var to int: %v", err)
+		log.Printf("error converting env var to int: %v", err)
+		port = 8080
 	}
 
 	s := server.New(
