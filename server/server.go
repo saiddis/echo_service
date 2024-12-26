@@ -52,7 +52,7 @@ func New(opts ...opt) *Server {
 }
 
 func (s *Server) Open() (err error) {
-	if s.domain != "" {
+	if s.domain != "" && s.domain != "localhost" {
 		s.ln = autocert.NewListener(s.domain)
 	} else {
 		if s.ln, err = net.Listen("tcp", s.addr); err != nil {

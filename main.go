@@ -6,14 +6,29 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/saiddis/echo_service/server"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("error loading env file")
+	}
+
+	domain := os.Getenv("DOMAIN")
+	log.Printf("domain: %s", domain)
+
+	port, err := strconv.Atoi(os.Getenv("PORT"))
+	log.Printf("port: %d", port)
+	if err != nil {
+		log.Fatalf("error converting env var to int: %v", err)
+	}
+
 	s := server.New(
-		server.WithPort(443),
-		server.WithDomain("echoServer"),
+		server.WithPort(port),
+		server.WithDomain(domain),
 	)
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -25,7 +40,7 @@ func main() {
 		log.Fatalf("error openning connection with the server: %v", err)
 	}
 
-	log.Printf("running: url=%s", s.URL())
+	log.Printf("running: url=%q", s.URL())
 
 	<-ctx.Done()
 
