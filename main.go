@@ -14,7 +14,7 @@ import (
 
 func main() {
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("error loading env file")
+		log.Printf("error loading env file: %v", err)
 	}
 
 	domain := os.Getenv("DOMAIN")
